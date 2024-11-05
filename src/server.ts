@@ -10,7 +10,7 @@ dotenv.config();
 // import k from 
 const PORT = process.env.PORT ||10010;
 const app = express();
-app.use(cors());
+// app.use(cors());
 app.use(cors({ origin: "https://hanafi-marwan.onrender.com" }));
 app.use(express.json());
 app.post(process.env.TYPE_APP_SING_PATH || '/api.signup',userRoute );

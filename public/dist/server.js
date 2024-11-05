@@ -13,9 +13,9 @@ const path = require('path');
 dotenv_1.default.config();
 // Ensure the path is correct
 // import k from 
-const PORT = process.env.PORT || 2002;
+const PORT = process.env.PORT || 10010;
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+// app.use(cors());
 app.use((0, cors_1.default)({ origin: "https://hanafi-marwan.onrender.com" }));
 app.use(express_1.default.json());
 app.post(process.env.TYPE_APP_SING_PATH || '/api.signup', userRoute_1.default);

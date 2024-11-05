@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "start": "npx ts-node src/server.ts"
+    "start": "node public/dist/server.js"
   },
   "keywords": [],
   "author": "",
