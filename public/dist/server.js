@@ -16,7 +16,7 @@ dotenv_1.default.config();
 const PORT = process.env.PORT || 10010;
 const app = (0, express_1.default)();
 // app.use(cors());
-app.use((0, cors_1.default)({ origin: "https://hanafi-marwan.onrender.com" }));
+app.use((0, cors_1.default)({ origin: ["https://hanafi-marwan.onrender.com"] }));
 app.use(express_1.default.json());
 app.post(process.env.TYPE_APP_SING_PATH || '/api.signup', userRoute_1.default);
 app.post(process.env.TYPE_APP_LOG_PATH || '/api.login', userRoute_1.default);
