@@ -8,7 +8,7 @@ const path = require('path');
 dotenv.config();
  // Ensure the path is correct
 // import k from 
-const PORT = process.env.PORT ||2002;
+const PORT = process.env.PORT ||10010;
 const app = express();
 app.use(cors());
 app.use(cors({ origin: "https://hanafi-marwan.onrender.com" }));
