@@ -4,6 +4,7 @@ import emailRouter from './routers/emailRouter'
 import passwordRouter from './routers/passwordRouter'
 import dotenv from 'dotenv';
 import cors from 'cors';
+const path = require('path');
 dotenv.config();
  // Ensure the path is correct
 // import k from 
@@ -17,6 +18,10 @@ app.post(process.env.TYPE_APP_LOG_PATH|| '/api.login',userRoute );
 app.post(process.env.TYPE_APP_EMAIL_PATH|| '/api.login',emailRouter );
 app.post('/api.password',passwordRouter );
 app.post('/api.change.password',passwordRouter );
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

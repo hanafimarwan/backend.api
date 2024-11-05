@@ -35,9 +35,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUsers = exports.getUserByEmail = exports.addUser = exports.checkEmailExists = exports.getLastUserId = void 0;
+exports.changeUserByEmail = exports.getAllUsers = exports.getUserByEmail = exports.addUser = exports.checkEmailExists = exports.getLastUserId = void 0;
 const fs_1 = __importDefault(require("fs"));
 const xml2js_1 = __importStar(require("xml2js"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 // Function to get the ID of the last user from the XML file
 const getLastUserId = (filePath) => {
     return new Promise((resolve, reject) => {
@@ -163,3 +164,43 @@ const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAllUsers = getAllUsers;
+// Function to change user by email
+function changeUserByEmail(email, newPassword) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Read the XML file
+            const xmlData = yield fs_1.default.promises.readFile('./src/data/data.xml', 'utf-8');
+            // Parse the XML data
+            const result = yield (0, xml2js_1.parseStringPromise)(xmlData);
+            const saltRounds = parseInt(process.env.TYPE_APP_SALTROUNDS || "10", 10);
+            // Find the user by email
+            let userFound = false;
+            const hashedPassword = yield bcrypt_1.default.hash(newPassword, saltRounds);
+            result.users.user.forEach((user) => {
+                if (user.email[0] === email) {
+                    // Update the user's password
+                    user.password[0] = hashedPassword; // Change the password
+                    userFound = true;
+                }
+            });
+            if (!userFound) {
+                console.log('User not found.');
+                return -1;
+            }
+            // Build the updated XML
+            const builder = new xml2js_1.Builder();
+            const updatedXml = builder.buildObject(result);
+            // Write the updated XML back to the file
+            yield fs_1.default.promises.writeFile('./src/data/data.xml', updatedXml);
+            console.log('User updated successfully.');
+            return 1;
+        }
+        catch (error) {
+            console.error('Error updating user:', error);
+            return 0;
+        }
+    });
+}
+exports.changeUserByEmail = changeUserByEmail;
+// Example usage
+// changeUserByEmail('hmarwanf130@gmail.com', 'new_password@123');
